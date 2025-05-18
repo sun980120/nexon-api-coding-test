@@ -1,4 +1,4 @@
-export class RequestRegisterDto {
+export class RequestAuthDto {
     username: string;
     password: string;
     roles: string[];

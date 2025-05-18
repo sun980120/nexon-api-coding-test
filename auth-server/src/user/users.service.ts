@@ -21,4 +21,8 @@ export class UsersService {
         const user = new this.userModel({ username, password, roles });
         await user.save();
     }
+
+    async findByUsername(username: string): Promise<UserDocument | null> {
+        return await this.userModel.findOne({ username }).exec();
+    }
 }
