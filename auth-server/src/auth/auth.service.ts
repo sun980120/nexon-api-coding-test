@@ -12,6 +12,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
+
     async register(dto: RequestAuthDto): Promise<string> {
         const hashed: string = await bcrypt.hash(dto.password, 10);
         await this.usersService.create(dto.username, hashed, dto.roles);
