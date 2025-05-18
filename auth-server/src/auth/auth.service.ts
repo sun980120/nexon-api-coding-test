@@ -10,6 +10,7 @@ export class AuthService {
     ) {}
 
     async register(dto: RequestRegisterDto): Promise<string> {
+        await this.usersService.exists(dto.username);
         const hashed: string = await bcrypt.hash(dto.password, 10);
         await this.usersService.create(dto.username, hashed, dto.roles);
         return "success";
