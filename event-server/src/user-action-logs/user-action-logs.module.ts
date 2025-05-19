@@ -1,16 +1,15 @@
-import { Injectable } from "@nestjs/common";
-import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
-import { EventDocument } from "../events/schemas/event.schema";
-import { RequestCreateEventDto } from "../events/dto/request.create.event.dto";
-import { UserActionLogDocument } from "./schemas/user.action.log.schema";
+import { Module } from "@nestjs/common";
+import { MongooseModule } from "@nestjs/mongoose";
+import { UserActionLog, UserActionLogSchema } from "./schemas/user.action.log.schema";
+import { UserActionLogsService } from "./user-action-logs.service";
 
-@Injectable()
-export class LogService {
-    constructor(@InjectModel(Event.name) private userActionLog: Model<UserActionLogDocument>) {}
-
-    async create(dto: RequestCreateEventDto) {
-        const userActionLog = new this.userActionLog(dto);
-        await userActionLog.save();
-    }
-}
+@Module({
+    imports: [
+        MongooseModule.forFeature([
+            { name: UserActionLog.name, schema: UserActionLogSchema }
+        ])
+    ],
+    providers: [UserActionLogsService],
+    exports: [UserActionLogsService]
+})
+export class UserActionLogsModule {}

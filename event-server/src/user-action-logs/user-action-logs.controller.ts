@@ -1,13 +1,14 @@
-import { Controller, Post } from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { RequestUserLogDto } from "./dto/request.user.log.dto";
-import { LogService } from "./log.module";
+import { UserActionLogsService } from "./user-action-logs.service";
 
-@Controller("log")
-export class LogController {
-    constructor(private readonly logService: LogService) {}
+@Controller("user-action-logs")
+export class UserActionLogsController {
+    constructor(private readonly userActionLogsService: UserActionLogsService) {}
 
+    // 출석, 초대, 퀘스트 등 모든 행동 로그 기록
     @Post("action")
-    async createEvent(dto: RequestUserLogDto) {
-        return this.logService.create(dto);
+    async createLog(@Body() dto: RequestUserLogDto) {
+        return await this.userActionLogsService.create(dto);
     }
 }
