@@ -76,4 +76,11 @@ export class RequestService {
 
         return count >= requiredCount;
     }
+    async findByUser(userId: string) {
+        return this.requestModel.find({ userId }).exec();
+    }
+
+    async findAll() {
+        return this.requestModel.find().exec();
+    }
 }
