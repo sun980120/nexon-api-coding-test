@@ -6,8 +6,8 @@ import * as mongoose from "mongoose";
 export class UserActionLog {
     @Prop({ required: true })
     userId: string;
-
-    @Prop({ required: true, enum: ['ATTENDANCE', 'INVITE', 'QUEST_COMPLETE'] })
+    @Prop({ required: true }) eventId: string; // 이벤트별 구분!
+    @Prop({ required: true, enum: ['ATTENDANCE', 'INVITE', 'QUEST_COMPLETE', 'REWARD'] })
     actionType: string;
 
     @Prop({ type: mongoose.Schema.Types.Mixed, required: false })
