@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Query } from '@nestjs/common';
 import { RewardService } from './reward.service';
 import { RequestCreateRewardDto } from './dto/request.create-reward.dto';
 
@@ -12,9 +12,10 @@ export class RewardController {
     }
 
     @Get("get-rewards")
-    findAll(data: { eventId?: string }) {
-        return data.eventId
-            ? this.rewardService.findByEvent(data.eventId)
+    findAll(@Query('eventId') eventId?: string ) {
+        return eventId
+            ? this.rewardService.findByEvent(eventId)
             : this.rewardService.findAll();
     }
+
 }
