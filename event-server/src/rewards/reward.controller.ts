@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { RewardService } from './reward.service';
 import { RequestCreateRewardDto } from './dto/request.create-reward.dto';
 
@@ -7,7 +7,8 @@ export class RewardController {
     constructor(private readonly rewardService: RewardService) {}
 
     @Post("create-reward")
-    create(dto: RequestCreateRewardDto) {
+    create(@Body() dto: RequestCreateRewardDto) {
+        console.log('전달된 DTO:', dto); // 실제 전달 데이터 확인
         return this.rewardService.create(dto);
     }
 

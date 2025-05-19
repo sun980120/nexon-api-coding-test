@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EventsModule } from './events/event.module';
+import { RequestModule } from "./requests/request.module";
+import { RewardsModule } from "./rewards/reward.module";
+import { UserActionLogsModule } from "./user-action-logs/user-action-logs.module";
 
 @Module({
   imports: [
@@ -17,6 +20,9 @@ import { EventsModule } from './events/event.module';
       inject: [ConfigService],
     }),
     EventsModule,
+    RequestModule,
+    RewardsModule,
+    UserActionLogsModule,
   ],
   controllers: [],
   providers: [],
