@@ -10,14 +10,34 @@ import { RequestUserLogDto } from "./dto/request.user.log.dto";
 @Injectable()
 export class UserActionLogsService {
     constructor(
-        @InjectQueue('logging') private readonly loggingQueue: Queue,
         @InjectModel(UserActionLog.name) private readonly actionLogModel: Model<UserActionLogDocument>
     ) {}
+
     async create(dto: RequestUserLogDto): Promise<string> {
         await this.actionLogModel.create(dto);
         return "success";
     }
 
+    async findActionsByUser(userId: string, query: any): Promise<UserActionLogDocument[]> {
+        return await this.actionLogModel.find({ userId, ...query }).exec();
+    }
+    // 초대 성공 로그 카운트 메서드 추가
+    async countSuccessfulInvitations(
+        userId: string,
+        startDate: Date,
+        endDate: Date,
+        eventId?: string
+    ): Promise<number> {
+        const filter: any = {
+            userId,
+            actionType: 'INVITE',
+            'metadata.status': 'SUCCESS',
+            timestamp: { $gte: startDate, $lte: endDate }
+        };
+        if (eventId) filter.eventId = eventId;
+
+        return this.actionLogModel.countDocuments(filter).exec();
+    }
     // 특정 이벤트 보상 수령 여부 확인
     async hasReceivedReward(userId: string, eventId: string): Promise<boolean> {
         return !!(await this.actionLogModel.exists({
@@ -38,15 +58,5 @@ export class UserActionLogsService {
     }
     async logUserAction(dto: RequestUserLogDto): Promise<void> {
         await this.actionLogModel.create(dto);
-    }
-    async logUserActionAsync(dto: RequestUserLogDto): Promise<void> {
-        // 비동기 큐에 추가 (실패 시 재시도 정책 적용)
-        await this.loggingQueue.add('log-action', dto, {
-            attempts: 3,
-            backoff: {
-                type: 'exponential',
-                delay: 1000
-            }
-        });
     }
 }

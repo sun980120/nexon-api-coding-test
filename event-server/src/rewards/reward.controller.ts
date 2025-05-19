@@ -7,7 +7,8 @@ export class RewardController {
     constructor(private readonly rewardService: RewardService) {}
 
     @Post("create-reward")
-    create(dto: RequestCreateRewardDto) {
+    create(@Body() dto: RequestCreateRewardDto) {
+        console.log('전달된 DTO:', dto); // 실제 전달 데이터 확인
         return this.rewardService.create(dto);
     }
 

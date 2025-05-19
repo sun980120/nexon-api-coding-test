@@ -10,5 +10,6 @@ import { EventController } from "./event.controller";
     ],
     providers: [EventService],
     controllers: [EventController],
+    exports: [EventService]
 })
 export class EventsModule {}

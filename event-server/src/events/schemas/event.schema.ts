@@ -1,14 +1,26 @@
-// events/event.schema.ts
+// events/event.schemas.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+
+export enum ConditionType {
+    ATTENDANCE = 'ATTENDANCE', // 출석
+    INVITE = 'INVITE', // 친구 N명 초대
+    QUEST = 'QUEST' // 퀘스트 완료
+}
 
 @Schema()
 export class Event {
     @Prop({ required: true })
     name: string;
 
+    @Prop({
+        required: true,
+        enum: ConditionType
+    })
+    conditionType: ConditionType;
+
     @Prop({ required: true })
-    condition: string; // 예: "7일 연속 출석", "친구 3명 초대" 등
+    conditionValue: number; // 예: "7(일)", "3(명)" 등
 
     @Prop({ required: true })
     startDate: Date;
@@ -18,6 +30,9 @@ export class Event {
 
     @Prop({ default: true })
     isActive: boolean;
+
+    @Prop({ type: Boolean, default: false })
+    autoApprove: boolean; // 자동 승인 여부 (기본값: false)
 }
 
 export type EventDocument = Event & Document;
