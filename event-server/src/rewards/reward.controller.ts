@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { RewardService } from './reward.service';
 import { RequestCreateRewardDto } from './dto/request.create-reward.dto';
 
