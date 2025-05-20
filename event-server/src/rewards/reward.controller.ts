@@ -1,21 +1,22 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { RewardService } from './reward.service';
-import { RequestCreateRewardDto } from './dto/request.create-reward.dto';
+import { RequestCreateRewardDto } from './dtos/request.create-reward.dto';
+import { MessagePattern } from "@nestjs/microservices";
 
-@Controller("rewards")
+@Controller()
 export class RewardController {
     constructor(private readonly rewardService: RewardService) {}
 
-    @Post("create-reward")
-    create(@Body() dto: RequestCreateRewardDto) {
-        console.log('전달된 DTO:', dto); // 실제 전달 데이터 확인
+
+    @MessagePattern({ cmd: 'create-reward' })
+    create(dto: RequestCreateRewardDto) {
         return this.rewardService.create(dto);
     }
 
-    @Get("get-rewards")
-    findAll(@Query('eventId') eventId?: string ) {
-        return eventId
-            ? this.rewardService.findByEvent(eventId)
+    @MessagePattern({ cmd: 'get-rewards' })
+    findAll(data: { eventId?: string }) {
+        return data.eventId
+            ? this.rewardService.findByEvent(data.eventId)
             : this.rewardService.findAll();
     }
 

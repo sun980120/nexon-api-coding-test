@@ -1,5 +1,6 @@
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import { Document } from 'mongoose';
+import { UserRole } from "../enums/condition-type.enum";
 
 @Schema()
 export class User {
@@ -11,8 +12,8 @@ export class User {
 
     @Prop({
         type: [String],
-        enum: ['USER', 'OPERATOR', 'AUDITOR', 'ADMIN'],
-        default: ['USER'],
+        enum: UserRole,
+        default: UserRole.USER,
     })
     roles: string[];
 }

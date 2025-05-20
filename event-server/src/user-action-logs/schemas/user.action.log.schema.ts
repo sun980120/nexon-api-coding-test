@@ -1,13 +1,14 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import * as mongoose from "mongoose";
+import { ActionType } from "../enums/action.type";
 
 @Schema()
 export class UserActionLog {
     @Prop({ required: true })
     userId: string;
     @Prop({ required: true }) eventId: string; // 이벤트별 구분!
-    @Prop({ required: true, enum: ['ATTENDANCE', 'INVITE', 'QUEST_COMPLETE', 'REWARD'] })
+    @Prop({ required: true, enum: ActionType })
     actionType: string;
 
     @Prop({ type: mongoose.Schema.Types.Mixed, required: false })

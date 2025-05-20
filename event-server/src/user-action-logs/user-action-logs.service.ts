@@ -5,7 +5,7 @@ import { UserActionLog, UserActionLogDocument } from "./schemas/user.action.log.
 import { Model } from "mongoose";
 import { InjectQueue } from "@nestjs/bull";
 import { Queue } from 'bull';
-import { RequestUserLogDto } from "./dto/request.user.log.dto";
+import { RequestUserLogDto } from "./dtos/request.user.log.dto";
 
 @Injectable()
 export class UserActionLogsService {

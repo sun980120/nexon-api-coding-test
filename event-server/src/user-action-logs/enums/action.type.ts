@@ -1,0 +1,6 @@
+export enum ActionType {
+    ATTENDANCE='ATTENDANCE',
+    INVITE='INVITE',
+    QUEST_COMPLETE='QUEST_COMPLETE',
+    REWARD='REWARD',
+}

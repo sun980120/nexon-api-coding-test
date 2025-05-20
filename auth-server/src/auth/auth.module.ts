@@ -4,10 +4,13 @@ import { UsersModule } from "../user/users.module";
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { ConfigModule, ConfigService } from "@nestjs/config";
+import { PassportModule } from "@nestjs/passport";
+import { JwtStrategy } from "./jwt.strategy";
 
 @Module({
     imports: [
         UsersModule,
+        PassportModule.register({ defaultStrategy: 'jwt' }), // PassportModule 추가
         JwtModule.registerAsync({
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => ({
@@ -20,6 +23,7 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
         }),
     ],
     controllers: [AuthController],
-    providers: [AuthService],
+    providers: [AuthService, JwtStrategy],
+    exports: [PassportModule, JwtModule], // 모듈 외부 노출 추가
 })
 export class AuthModule {}

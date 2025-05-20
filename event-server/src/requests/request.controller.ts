@@ -1,19 +1,22 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { RequestService } from "./request.service";
+import { RewardRequestDto } from "./dtos/rewarod.request.dto";
+import { MessagePattern } from "@nestjs/microservices";
 
-@Controller("requests")
+@Controller()
 export class RequestController {
     constructor(private readonly requestService: RequestService) {}
 
-    @Post('create-request')
-    async handleCreateRequest(@Body() data: { userId: string; eventId: string }) {
-        return this.requestService.createRequest(data.userId, data.eventId);
+
+    @MessagePattern({ cmd: 'create-request' })
+    async handleCreateRequest(@Body() dto: RewardRequestDto) {
+        return this.requestService.createRequest(dto.userId, dto.eventId);
     }
 
-    @Get('get-requests')
-    findAll(@Body() data: { userId?: string }) {
-        return data.userId
-        ? this.requestService.findByUser(data.userId)
+    @MessagePattern({ cmd: 'get-request' })
+    findAll(@Body() dto: RewardRequestDto) {
+        return dto.userId
+        ? this.requestService.findByUser(dto.userId)
             : this.requestService.findAll();
     }
 }
