@@ -1,4 +1,29 @@
-# 설계 의도 및 추가 설명
+# Nexon API Coding Test
+
+---
+
+## 🚀 실행 방법 (Docker Compose)
+### 1. 저장소 클론
+git clone https://github.com/sun980120/nexon-api-coding-test.git
+cd nexon-api-coding-test
+### 2. 환경 변수 파일(.env) 설정
+
+각 서비스 폴더(`gateway/`, `auth-server/`, `event-server/`)에 `.env` 파일을 복사/작성하세요. 
+### 3. Docker 이미지 빌드 및 전체 서비스 실행
+docker-compose up -d --build
+
+### 4. 서비스 확인
+
+- Gateway: [http://localhost:4000](http://localhost:4000)
+- Auth Server, Event Server: 내부 TCP 통신(직접 접근 불가)
+- MongoDB: 내부 서비스용
+
+  ### 5. 로그 확인
+docker-compose logs -f gateway
+
+### 6. 종료
+docker-compose down -v
+
 
 ## 이벤트 설계 및 조건 검증 방식
 
