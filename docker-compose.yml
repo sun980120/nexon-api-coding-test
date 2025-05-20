@@ -1,0 +1,54 @@
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "4000:4000"
+    environment:
+      - AUTH_SERVER_HOST=auth-server
+      - AUTH_SERVER_PORT=4001
+      - EVENT_SERVER_HOST=event-server
+      - EVENT_SERVER_PORT=4002
+      - JWT_SECRET=your_jwt_secret
+    depends_on:
+      - auth-server
+      - event-server
+
+  auth-server:
+    build: ./auth-server
+    ports:
+      - "4001:4001"
+    environment:
+      - MONGO_URI=mongodb://mongodb-auth:27017/auth
+    depends_on:
+      - mongodb-auth
+
+  event-server:
+    build: ./event-server
+    ports:
+      - "4002:4002"
+    environment:
+      - MONGO_URI=mongodb://mongodb-event:27017/events
+    depends_on:
+      - mongodb-event
+
+  mongodb-auth:
+    image: mongo:latest
+    volumes:
+      - auth_db:/data/db
+    ports:
+      - "27030:27017"
+
+  mongodb-event:
+    image: mongo:latest
+    volumes:
+      - event_db:/data/db
+    ports:
+      - "27031:27017"
+
+volumes:
+  auth_db:
+  event_db:
+
+networks:
+  default:
+    name: app-network
