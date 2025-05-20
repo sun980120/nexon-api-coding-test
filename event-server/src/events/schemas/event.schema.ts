@@ -1,12 +1,7 @@
-// events/event.schemas.ts
+// events/events.schemas.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-
-export enum ConditionType {
-    ATTENDANCE = 'ATTENDANCE', // 출석
-    INVITE = 'INVITE', // 친구 N명 초대
-    QUEST = 'QUEST' // 퀘스트 완료
-}
+import { ConditionType } from "../enums/condition-type.enum";
 
 @Schema()
 export class Event {

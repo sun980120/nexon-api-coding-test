@@ -1,4 +1,4 @@
-import { ConditionType } from "../schemas/event.schema";
+import { ConditionType } from "../enums/condition-type.enum";
 
 export class RequestCreateEventDto {
     name: string;

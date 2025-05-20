@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
-import { EventDocument } from "./schemas/event.schema";
-import { RequestCreateEventDto } from "./dto/request.create.event.dto";
+import { Event, EventDocument } from "./schemas/event.schema";
+import { RequestCreateEventDto } from "./dtos/request.create.event.dto";
 
 @Injectable()
 export class EventService {
@@ -12,6 +12,10 @@ export class EventService {
         const event = new this.eventModel(dto);
         await event.save();
         return "success";
+    }
+
+    async findAll(): Promise<EventDocument[]> {
+        return await this.eventModel.find().exec();
     }
 
     async findById(id: string): Promise<EventDocument | null> {
